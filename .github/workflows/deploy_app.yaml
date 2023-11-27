@@ -1,0 +1,45 @@
+name: Deploy Container Image to Azure App Service
+
+on:
+  workflow_dispatch:
+
+permissions:
+      id-token: write
+      contents: read
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    # defaults:
+    #   run:
+    #     shell: bash
+    #     working-directory: dotnet
+    steps:
+    # checkout the repo
+    - name: 'Checkout GitHub Action' 
+      uses: actions/checkout@main
+    
+    - name: 'Login via Azure CLI'
+      uses: azure/login@v1
+      with:
+        client-id: 33640e3e-83c6-471a-961b-d14a5f7cdc92
+        tenant-id: ca0a89e1-2de3-4e6f-af1a-1cf242e031e1
+        subscription-id: e374b881-e663-4748-bb39-50be7cfdaca9
+    
+    - uses: azure/docker-login@v1
+      with:
+        login-server: dockercourse.azurecr.io
+        username: dockercourse
+        password: BYUNydBGpIx1DOqcykIe4LhTfiHPduEwf7rDhDaf37+ACRC3qI7v
+    - run: |
+        docker build . -t dockercourse.azurecr.io/myapp:${{ github.sha }}
+        docker push dockercourse.azurecr.io/myapp:${{ github.sha }}     
+      
+    - uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'docker-course'
+        images: 'dockercourse.azurecr.io/myapp:${{ github.sha }}'
+    
+    - name: Azure logout
+      run: |
+        az logout
