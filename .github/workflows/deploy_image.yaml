@@ -25,5 +25,5 @@ jobs:
  
       - name: Deploy Image
       - run: |
-        docker build . -t dockercourse.azurecr.io/myapp:${{ github.sha }}
+        docker build -t dockercourse.azurecr.io/myapp:${{ github.sha }} .
         docker push dockercourse.azurecr.io/myapp:${{ github.sha }}
