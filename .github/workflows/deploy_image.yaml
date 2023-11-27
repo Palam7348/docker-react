@@ -15,8 +15,8 @@ jobs:
     - uses: azure/docker-login@v1
       with:
         login-server: dockercourse.azurecr.io
-          username: dockercourse
-          password: BYUNydBGpIx1DOqcykIe4LhTfiHPduEwf7rDhDaf37+ACRC3qI7v
+        username: dockercourse
+        password: BYUNydBGpIx1DOqcykIe4LhTfiHPduEwf7rDhDaf37+ACRC3qI7v
     - run: |
         docker build . -t dockercourse.azurecr.io/myapp:${{ github.sha }}
         docker push dockercourse.azurecr.io/myapp:${{ github.sha }}
