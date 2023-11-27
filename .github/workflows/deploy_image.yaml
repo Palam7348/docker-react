@@ -1,0 +1,29 @@
+name: Build Linux Container Image and Push to ACR
+
+on:
+  workflow_dispatch:
+ 
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: dotnet
+    steps:
+      - uses: actions/checkout@v3
+      - run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+      - run: docker build -t palam7348/react-test -f Dockerfile.dev .
+      - run: docker run -e CI=true palam7348/react-test npm test
+
+      - uses: actions/checkout@v2
+      - uses: azure/docker-login@v1
+        with:
+          login-server: dockercourse.azurecr.io
+          username: dockercourse
+          password: BYUNydBGpIx1DOqcykIe4LhTfiHPduEwf7rDhDaf37+ACRC3qI7v
+ 
+      - name: Deploy Image
+      - run: |
+        docker build . -t dockercourse.azurecr.io/myapp:${{ github.sha }}
+        docker push dockercourse.azurecr.io/myapp:${{ github.sha }}
