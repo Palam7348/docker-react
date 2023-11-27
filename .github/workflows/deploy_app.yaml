@@ -19,12 +19,12 @@ jobs:
     - name: 'Checkout GitHub Action' 
       uses: actions/checkout@main
     
-    - name: 'Login via Azure CLI'
-      uses: azure/login@v1
-      with:
-        client-id: 6e66f7fc-40ce-4834-988e-6ab5905e1270
-        tenant-id: ca0a89e1-2de3-4e6f-af1a-1cf242e031e1
-        subscription-id: e374b881-e663-4748-bb39-50be7cfdaca9
+    # - name: 'Login via Azure CLI'
+    #   uses: azure/login@v1
+    #   with:
+    #     client-id: 6e66f7fc-40ce-4834-988e-6ab5905e1270
+    #     tenant-id: ca0a89e1-2de3-4e6f-af1a-1cf242e031e1
+    #     subscription-id: e374b881-e663-4748-bb39-50be7cfdaca9
     
     - uses: azure/docker-login@v1
       with:
